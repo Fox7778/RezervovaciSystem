@@ -61,12 +61,26 @@ function ReservationsPage() {
   const { data = [], isLoading } = useQuery({
     queryKey: ["reservations", "all"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data: rows, error } = await supabase
         .from("reservations")
-        .select("*, resource:resources(*), profile:profiles(*)")
+        .select("*, resource:resources(*)")
         .order("start_time", { ascending: false });
       if (error) throw error;
-      return data as FullReservation[];
+
+      const userIds = Array.from(new Set((rows ?? []).map((r) => r.user_id)));
+      let profilesById = new Map<string, Profile>();
+      if (userIds.length > 0) {
+        const { data: profs, error: pErr } = await supabase
+          .from("profiles")
+          .select("*")
+          .in("id", userIds);
+        if (pErr) throw pErr;
+        profilesById = new Map((profs as Profile[]).map((p) => [p.id, p]));
+      }
+      return (rows ?? []).map((r) => ({
+        ...(r as Reservation),
+        profile: profilesById.get(r.user_id) ?? null,
+      })) as FullReservation[];
     },
   });
 
