@@ -8,8 +8,17 @@ Naklonuj si repozitář do adresáře na svém počítači pomocí git clone:
   ```bash
   git clone https://github.com/Fox7778/RezervovaciSystem.git
 ```
-
-## 1. `.env` soubor
+## 2. Npm install
+Do terminálu ve VScode zadej cestu k root složce projektu a následovně:  
+```node
+npm install
+```
+## 3. Npm run dev
+Po úspěšné instalaci node package managera spusť:  
+```node
+npm run dev
+```
+## 4. `.env` soubor
 
 Vytvoř v rootu projektu soubor `.env` (viz `.env.example`):
 
