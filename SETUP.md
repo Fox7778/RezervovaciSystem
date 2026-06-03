@@ -203,6 +203,17 @@ alter table public.reservations alter column purpose drop default;
 alter table public.reservations drop constraint if exists reservations_status_check;
 ```
 
+### (Volitelné) Přímá FK na `profiles`
+
+Dashboard kvůli kompatibilitě načítá profily extra dotazem. Pokud chceš
+využívat PostgREST embed (`profile:profiles(*)`), přidej FK:
+
+```sql
+alter table public.reservations
+  add constraint reservations_user_id_profiles_fkey
+  foreign key (user_id) references public.profiles(id) on delete cascade;
+```
+
 ## 7. Struktura projektu
 
 ```
