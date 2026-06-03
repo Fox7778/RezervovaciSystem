@@ -214,6 +214,18 @@ alter table public.reservations
   foreign key (user_id) references public.profiles(id) on delete cascade;
 ```
 
+### Migrace: zveřejnit rezervace všem přihlášeným
+
+Pokud už máš starší verzi s policy `reservations_select_own_or_admin`,
+nahraď ji takto:
+
+```sql
+drop policy if exists "reservations_select_own_or_admin" on public.reservations;
+create policy "reservations_select_all_authenticated"
+  on public.reservations for select to authenticated
+  using (true);
+```
+
 ## 7. Struktura projektu
 
 ```
