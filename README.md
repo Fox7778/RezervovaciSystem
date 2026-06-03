@@ -1,4 +1,4 @@
-# Rezervo — nastavení projektu
+# Rezervo 
 
 Moderní rezervační systém učeben a vybavení.
 **Frontend:** React 19 + TanStack Start (Vite) + TailwindCSS v4
