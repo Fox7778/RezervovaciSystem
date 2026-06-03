@@ -56,7 +56,8 @@ create table public.reservations (
   user_id uuid not null references auth.users(id) on delete cascade,
   start_time timestamptz not null,
   end_time timestamptz not null,
-  status text not null default 'confirmed' check (status in ('pending','confirmed','cancelled')),
+  purpose text not null,
+  status text not null default 'confirmed',
   created_at timestamptz not null default now(),
   check (end_time > start_time)
 );
@@ -182,10 +183,25 @@ Vše skrz `supabase-js` v `src/lib/supabase.ts`:
 | Nový zdroj | `supabase.from('resources').insert(payload)` |
 | Úprava zdroje | `supabase.from('resources').update(payload).eq('id', id)` |
 | Smazání zdroje | `supabase.from('resources').delete().eq('id', id)` |
-| Kolizní kontrola | `supabase.from('reservations').select('id').eq('resource_id', X).lt('start_time', end).gt('end_time', start).neq('status','cancelled')` |
-| Nová rezervace | `supabase.from('reservations').insert({...})` |
-| Zrušení rezervace | `supabase.from('reservations').update({ status: 'cancelled' }).eq('id', id)` |
-| Admin view | `supabase.from('reservations').select('*, resource:resources(*), profile:profiles(*)')` |
+| Kolizní kontrola | `supabase.from('reservations').select('id').eq('resource_id', X).lt('start_time', end).gt('end_time', start)` (při editaci doplnit `.neq('id', editId)`) |
+| Nová rezervace | `supabase.from('reservations').insert({ resource_id, user_id, start_time, end_time, purpose })` |
+| Úprava rezervace | `supabase.from('reservations').update({ ... }).eq('id', id)` |
+| Smazání rezervace | `supabase.from('reservations').delete().eq('id', id)` |
+| Dashboard (všichni) | `supabase.from('reservations').select('*, resource:resources(*), profile:profiles(*)')` |
+| Vyčištění expirovaných | `supabase.from('reservations').delete().lt('end_time', now)` |
+
+> **Status rezervace** (budoucí / aktivní / ukončená) se v UI počítá z `start_time` a `end_time` vůči aktuálnímu času — sloupec `status` v DB zůstává jako rezerva pro budoucí rozšíření.
+
+### Migrace pro starší instance (přidání `purpose`)
+
+Pokud už máš starší verzi schématu bez sloupce `purpose`, spusť:
+
+```sql
+alter table public.reservations
+  add column if not exists purpose text not null default '';
+alter table public.reservations alter column purpose drop default;
+alter table public.reservations drop constraint if exists reservations_status_check;
+```
 
 ## 7. Struktura projektu
 
