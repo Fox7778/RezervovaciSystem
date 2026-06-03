@@ -45,7 +45,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <NavLink
                 to="/reservations"
                 icon={<CalendarCheck className="h-4 w-4" />}
-                label="Moje rezervace"
+                label="Dashboard"
               />
               {isAdmin && (
                 <NavLink
@@ -95,7 +95,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <NavLink
               to="/reservations"
               icon={<CalendarCheck className="h-4 w-4" />}
-              label="Rezervace"
+              label="Dashboard"
             />
             {isAdmin && (
               <NavLink to="/admin" icon={<ShieldCheck className="h-4 w-4" />} label="Správa" />
