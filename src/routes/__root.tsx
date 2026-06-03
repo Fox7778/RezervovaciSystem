@@ -79,14 +79,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Rezervovací systém" },
+      { name: "description", content: "DBS_Project is a modern, responsive web application for managing project data." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Rezervovací systém" },
+      { property: "og:description", content: "DBS_Project is a modern, responsive web application for managing project data." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Rezervovací systém" },
+      { name: "twitter:description", content: "DBS_Project is a modern, responsive web application for managing project data." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/995caa8d-e36f-47d7-a6c0-fae062efe921/id-preview-d8024424--bc658dc4-24fd-4927-a2f6-b37f1fb8682b.lovable.app-1780481966213.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/995caa8d-e36f-47d7-a6c0-fae062efe921/id-preview-d8024424--bc658dc4-24fd-4927-a2f6-b37f1fb8682b.lovable.app-1780481966213.png" },
     ],
     links: [
       {
