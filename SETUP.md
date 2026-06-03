@@ -3,10 +3,9 @@
 Moderní rezervační systém učeben a vybavení.
 **Frontend:** React 19 + TanStack Start (Vite) + TailwindCSS v4
 **Backend:** Tvoje vlastní Supabase instance (Postgres + Auth)
-
-> Pozn.: Zadání žádalo Nuxt v4. Lovable Nuxt nepodporuje, takže projekt
-> používá ekvivalentní React stack. Veškerá komunikace s DB ale probíhá
-> přímo přes oficiální `@supabase/supabase-js` klient, jak zadání vyžaduje.
+## 1. Git Clone
+Naklonuj si repozitář do adresáře na svém počítači pomocí git clone.
+  git clone:
 
 ## 1. `.env` soubor
 
@@ -192,17 +191,6 @@ Vše skrz `supabase-js` v `src/lib/supabase.ts`:
 
 > **Status rezervace** (budoucí / aktivní / ukončená) se v UI počítá z `start_time` a `end_time` vůči aktuálnímu času — sloupec `status` v DB zůstává jako rezerva pro budoucí rozšíření.
 
-### Migrace pro starší instance (přidání `purpose`)
-
-Pokud už máš starší verzi schématu bez sloupce `purpose`, spusť:
-
-```sql
-alter table public.reservations
-  add column if not exists purpose text not null default '';
-alter table public.reservations alter column purpose drop default;
-alter table public.reservations drop constraint if exists reservations_status_check;
-```
-
 ### (Volitelné) Přímá FK na `profiles`
 
 Dashboard kvůli kompatibilitě načítá profily extra dotazem. Pokud chceš
@@ -212,18 +200,6 @@ využívat PostgREST embed (`profile:profiles(*)`), přidej FK:
 alter table public.reservations
   add constraint reservations_user_id_profiles_fkey
   foreign key (user_id) references public.profiles(id) on delete cascade;
-```
-
-### Migrace: zveřejnit rezervace všem přihlášeným
-
-Pokud už máš starší verzi s policy `reservations_select_own_or_admin`,
-nahraď ji takto:
-
-```sql
-drop policy if exists "reservations_select_own_or_admin" on public.reservations;
-create policy "reservations_select_all_authenticated"
-  on public.reservations for select to authenticated
-  using (true);
 ```
 
 ## 7. Struktura projektu
