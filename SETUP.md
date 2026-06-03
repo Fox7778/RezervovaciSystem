@@ -195,18 +195,7 @@ Vše skrz `supabase-js` v `src/lib/supabase.ts`:
 
 > **Status rezervace** (budoucí / aktivní / ukončená) se v UI počítá z `start_time` a `end_time` vůči aktuálnímu času — sloupec `status` v DB zůstává jako rezerva pro budoucí rozšíření.
 
-### (Volitelné) Přímá FK na `profiles`
-
-Dashboard kvůli kompatibilitě načítá profily extra dotazem. Pokud chceš
-využívat PostgREST embed (`profile:profiles(*)`), přidej FK:
-
-```sql
-alter table public.reservations
-  add constraint reservations_user_id_profiles_fkey
-  foreign key (user_id) references public.profiles(id) on delete cascade;
-```
-
-## 9. Struktura projektu
+## 8. Struktura projektu
 
 ```
 src/
