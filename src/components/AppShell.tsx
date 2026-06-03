@@ -1,12 +1,22 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { LogOut, CalendarCheck, LayoutGrid, ShieldCheck, Sparkles } from "lucide-react";
-import type { ReactNode } from "react";
+import {
+  LogOut,
+  CalendarCheck,
+  LayoutGrid,
+  ShieldCheck,
+  Sparkles,
+  CalendarPlus,
+  Plus,
+} from "lucide-react";
+import { useState, type ReactNode } from "react";
+import { ReservationFormDialog } from "@/components/ReservationFormDialog";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { profile, isAdmin, signOut, user } = useAuth();
   const router = useRouter();
+  const [reserveOpen, setReserveOpen] = useState(false);
 
   const handleSignOut = async () => {
     await signOut();
@@ -50,6 +60,16 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="flex items-center gap-2">
             {user ? (
               <>
+                <Button size="sm" onClick={() => setReserveOpen(true)} className="hidden sm:inline-flex">
+                  <CalendarPlus className="mr-1 h-4 w-4" /> Rezervovat
+                </Button>
+                {isAdmin && (
+                  <Button asChild size="sm" variant="outline" className="hidden md:inline-flex">
+                    <Link to="/resources">
+                      <Plus className="mr-1 h-4 w-4" /> Přidat zdroj
+                    </Link>
+                  </Button>
+                )}
                 <div className="hidden text-right sm:block">
                   <div className="text-xs font-medium">
                     {profile?.display_name ?? user.email}
@@ -85,6 +105,9 @@ export function AppShell({ children }: { children: ReactNode }) {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10">{children}</main>
+      {user && (
+        <ReservationFormDialog open={reserveOpen} onOpenChange={setReserveOpen} />
+      )}
     </div>
   );
 }
