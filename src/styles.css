@@ -63,25 +63,31 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  /* Modern dark "lab" theme — deep slate s neonovým mint akcentem */
+  --background: oklch(0.18 0.02 250);
+  --foreground: oklch(0.97 0.01 240);
+  --card: oklch(0.22 0.025 250);
+  --card-foreground: oklch(0.97 0.01 240);
+  --popover: oklch(0.22 0.025 250);
+  --popover-foreground: oklch(0.97 0.01 240);
+  --primary: oklch(0.82 0.18 165);
+  --primary-foreground: oklch(0.18 0.04 200);
+  --secondary: oklch(0.28 0.03 250);
+  --secondary-foreground: oklch(0.97 0.01 240);
+  --muted: oklch(0.26 0.025 250);
+  --muted-foreground: oklch(0.72 0.02 240);
+  --accent: oklch(0.7 0.18 295);
+  --accent-foreground: oklch(0.97 0.01 240);
+  --destructive: oklch(0.65 0.22 25);
+  --destructive-foreground: oklch(0.98 0.01 0);
+  --border: oklch(0.32 0.03 250);
+  --input: oklch(0.28 0.03 250);
+  --ring: oklch(0.82 0.18 165);
+  --gradient-hero: radial-gradient(at 20% 0%, oklch(0.4 0.18 290 / 0.5), transparent 50%),
+    radial-gradient(at 80% 100%, oklch(0.5 0.18 165 / 0.4), transparent 50%);
+  --gradient-primary: linear-gradient(135deg, oklch(0.82 0.18 165), oklch(0.7 0.18 195));
+  --shadow-glow: 0 0 40px oklch(0.82 0.18 165 / 0.25);
+  --shadow-card: 0 8px 32px oklch(0.1 0.02 250 / 0.5);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +146,25 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-feature-settings: "ss01", "cv01";
+    background-image: var(--gradient-hero);
+    background-attachment: fixed;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: color-mix(in oklab, var(--card) 70%, transparent);
+    backdrop-filter: blur(12px);
+    border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
+  }
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .glow {
+    box-shadow: var(--shadow-glow);
   }
 }
