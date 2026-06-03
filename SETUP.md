@@ -29,11 +29,11 @@ VITE_SUPABASE_ANON_KEY=eyJhbGciOi...your-anon-public-key
 
 Najdeš je v Supabase: **Project Settings → API → Project URL / anon public**.
 
-## 2. SQL — vytvoření tabulek, rolí, triggerů a RLS
+## 5. SQL — vytvoření tabulek, rolí, triggerů a RLS
 
 Otevři **SQL Editor** ve své Supabase a spusť ve dvou krocích (po sobě):
 
-### 2a) Schéma + trigger pro automatické založení profilu
+### 5a) Schéma + trigger pro automatické založení profilu
 
 ```sql
 -- ROLE ENUM ------------------------------------------------------------
@@ -109,7 +109,7 @@ as $$
 $$;
 ```
 
-### 2b) GRANTy + Row Level Security
+### 5b) GRANTy + Row Level Security
 
 ```sql
 -- GRANTy (Supabase Data API)
@@ -157,7 +157,7 @@ create policy "reservations_delete_own_or_admin"
   using (user_id = auth.uid() or public.is_admin(auth.uid()));
 ```
 
-## 3. Povýšení účtu na správce
+## 6. Povýšení účtu na správce
 
 Po registraci prvního účtu z UI spusť v **SQL Editoru**:
 
@@ -167,20 +167,13 @@ set role = 'admin'
 where email = 'tvuj@email.cz';
 ```
 
-## 4. Nastavení Supabase Auth
+## 7. Nastavení Supabase Auth
 
 - **Authentication → Providers → Email**: zapnuto.
 - Pro vývoj doporučuji v **Authentication → Email**: vypnout *"Confirm email"*,
   aby se účty daly hned přihlásit. Na produkci nech zapnuté.
 
-## 5. Spuštění
-
-```bash
-bun install      # nebo npm install
-bun run dev      # spustí Vite dev server
-```
-
-## 6. Použité Supabase API volání
+## 8. Použité Supabase API volání
 
 Vše skrz `supabase-js` v `src/lib/supabase.ts`:
 
@@ -213,7 +206,7 @@ alter table public.reservations
   foreign key (user_id) references public.profiles(id) on delete cascade;
 ```
 
-## 7. Struktura projektu
+## 9. Struktura projektu
 
 ```
 src/
