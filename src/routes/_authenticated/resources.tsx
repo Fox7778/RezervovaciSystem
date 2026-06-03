@@ -36,7 +36,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CalendarPlus, MapPin, Package, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { ReserveDialog } from "@/components/ReserveDialog";
+import { ReservationFormDialog } from "@/components/ReservationFormDialog";
 
 export const Route = createFileRoute("/_authenticated/resources")({
   head: () => ({ meta: [{ title: "Zdroje — Rezervo" }] }),
@@ -210,8 +210,8 @@ function ResourcesPage() {
         </div>
       )}
 
-      <ReserveDialog
-        resource={activeResource}
+      <ReservationFormDialog
+        lockedResource={activeResource}
         open={reserveOpen}
         onOpenChange={setReserveOpen}
       />
