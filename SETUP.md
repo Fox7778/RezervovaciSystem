@@ -132,9 +132,9 @@ create policy "resources_admin_write"
   using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()));
 
 -- RESERVATIONS policies
-create policy "reservations_select_own_or_admin"
+create policy "reservations_select_all_authenticated"
   on public.reservations for select to authenticated
-  using (user_id = auth.uid() or public.is_admin(auth.uid()));
+  using (true);
 create policy "reservations_insert_self"
   on public.reservations for insert to authenticated
   with check (user_id = auth.uid());
@@ -212,6 +212,18 @@ využívat PostgREST embed (`profile:profiles(*)`), přidej FK:
 alter table public.reservations
   add constraint reservations_user_id_profiles_fkey
   foreign key (user_id) references public.profiles(id) on delete cascade;
+```
+
+### Migrace: zveřejnit rezervace všem přihlášeným
+
+Pokud už máš starší verzi s policy `reservations_select_own_or_admin`,
+nahraď ji takto:
+
+```sql
+drop policy if exists "reservations_select_own_or_admin" on public.reservations;
+create policy "reservations_select_all_authenticated"
+  on public.reservations for select to authenticated
+  using (true);
 ```
 
 ## 7. Struktura projektu
