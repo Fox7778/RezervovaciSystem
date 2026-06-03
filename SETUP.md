@@ -4,8 +4,8 @@ Moderní rezervační systém učeben a vybavení.
 **Frontend:** React 19 + TanStack Start (Vite) + TailwindCSS v4
 **Backend:** Tvoje vlastní Supabase instance (Postgres + Auth)
 ## 1. Git Clone
-Naklonuj si repozitář do adresáře na svém počítači pomocí git clone.
-  `git clone `
+Naklonuj si repozitář do adresáře na svém počítači pomocí git clone:  
+  `git clone https://github.com/Fox7778/RezervovaciSystem.git`
 
 ## 1. `.env` soubor
 
