@@ -132,9 +132,9 @@ create policy "resources_admin_write"
   using (public.is_admin(auth.uid())) with check (public.is_admin(auth.uid()));
 
 -- RESERVATIONS policies
-create policy "reservations_select_own_or_admin"
+create policy "reservations_select_all_authenticated"
   on public.reservations for select to authenticated
-  using (user_id = auth.uid() or public.is_admin(auth.uid()));
+  using (true);
 create policy "reservations_insert_self"
   on public.reservations for insert to authenticated
   with check (user_id = auth.uid());
