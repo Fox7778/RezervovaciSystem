@@ -42,8 +42,20 @@ export type Reservation = {
   user_id: string;
   start_time: string;
   end_time: string;
-  status: "pending" | "confirmed" | "cancelled";
+  purpose: string;
+  status: string; // ponecháno kvůli zpětné kompatibilitě; v UI počítáme z časů
   created_at: string;
   resource?: Resource;
   profile?: Profile;
 };
+
+export type ReservationStatus = "future" | "active" | "expired";
+
+export function computeStatus(r: Pick<Reservation, "start_time" | "end_time">): ReservationStatus {
+  const now = Date.now();
+  const s = new Date(r.start_time).getTime();
+  const e = new Date(r.end_time).getTime();
+  if (e <= now) return "expired";
+  if (s <= now && now < e) return "active";
+  return "future";
+}
